@@ -1,0 +1,260 @@
+/* Friday Finder: a dark header, warm amber accents, and large deal cards that
+   stay readable when the page is shrunk to a screenshot or a phone screen. */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 17px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #17202a;
+  background: #f2efe8;
+}
+
+a { color: #0b4f6c; }
+
+header.site-header {
+  background: #123332;
+  color: #fff;
+  padding: 14px 24px 12px;
+}
+
+header.site-header a.brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+header.site-header a.brand span { color: #ffb703; }
+
+header.site-header p.tagline {
+  margin: 2px 0 0;
+  font-size: 15px;
+  color: #d8e6e2;
+}
+
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px 64px;
+}
+
+footer {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  font-size: 14px;
+  color: #4a5560;
+}
+
+.intro h1 {
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 18px 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.lede { font-size: 17px; max-width: 860px; margin: 0 0 8px; }
+
+.legend { font-size: 14px; line-height: 1.6; max-width: 900px; margin: 0; }
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+  background: #fff;
+  border: 2px solid #123332;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 14px 0 6px;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.controls .search-label { flex: 1 1 260px; }
+
+.controls input,
+.controls select {
+  font: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 9px 10px;
+  border: 2px solid #8a9ba3;
+  border-radius: 8px;
+  background: #fff;
+  color: #17202a;
+  min-height: 44px;
+}
+
+.count { font-size: 16px; font-weight: 700; margin: 10px 0 10px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #d5d0c4;
+  border-top: 6px solid #ffb703;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card h2 {
+  font-size: 20px;
+  line-height: 1.25;
+  margin: 4px 0 8px;
+}
+
+.card h2 a { color: #17202a; text-decoration: none; }
+.card h2 a:hover { text-decoration: underline; }
+
+.eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0b4f6c;
+}
+
+.price-row { margin: 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.price-row.big { margin: 6px 0; }
+
+.price { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; color: #0d3b2e; }
+.price-row.big .price { font-size: 42px; }
+
+.was { font-size: 18px; color: #5b6770; }
+.off {
+  background: #c1121f;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.save-line { margin: 2px 0 8px; font-size: 16px; font-weight: 700; color: #0d3b2e; }
+
+.verdict-row { margin: 0 0 6px; }
+
+.badge {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+}
+
+.badge-new-low { background: #0d3b2e; color: #fff; }
+.badge-strong { background: #fff3cd; color: #5c4300; border-color: #d9a400; }
+.badge-routine { background: #e8eef1; color: #33414a; border-color: #8a9ba3; }
+.badge-inflated { background: #fde8e8; color: #7a1010; border-color: #c1121f; }
+
+.verdict-name { font-weight: 800; margin-left: 6px; }
+
+.evidence { margin: 0 0 10px; font-size: 15px; color: #333d44; flex: 1; }
+
+.checked { margin: 0 0 10px; font-size: 14px; color: #4a5560; }
+
+.card-actions { margin: 0; display: flex; gap: 10px; flex-wrap: wrap; }
+
+.button {
+  display: inline-block;
+  background: #123332;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 2px solid #123332;
+}
+
+.button.ghost { background: #fff; color: #123332; }
+
+.big-button { font-size: 18px; padding: 13px 20px; }
+
+.empty { font-size: 18px; background: #fff; border: 1px solid #d5d0c4; border-radius: 10px; padding: 20px; }
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #0b4f6c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.back { margin-top: 24px; font-weight: 700; }
+
+.detail {
+  background: #fff;
+  border: 1px solid #d5d0c4;
+  border-top: 6px solid #ffb703;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.detail h1 { font-size: 32px; line-height: 1.2; margin: 6px 0 8px; }
+.detail h2 { font-size: 22px; margin: 26px 0 6px; }
+.detail p { font-size: 17px; max-width: 760px; }
+.detail .condition { background: #fff8e1; border-left: 5px solid #ffb703; padding: 12px 14px; }
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 18px;
+  font-size: 16px;
+  max-width: 760px;
+}
+
+.facts dt { font-weight: 800; }
+.facts dd { margin: 0; }
+
+.fineprint { font-size: 14px; color: #4a5560; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  header.site-header { padding: 10px 14px 8px; }
+  header.site-header a.brand { font-size: 25px; }
+  header.site-header p.tagline { font-size: 14px; line-height: 1.35; }
+  main { padding: 0 14px 48px; }
+  .intro h1 { font-size: 25px; line-height: 1.1; margin: 8px 0 4px; }
+  .lede { font-size: 15px; line-height: 1.4; margin-bottom: 6px; }
+  .legend { font-size: 13px; line-height: 1.45; }
+  .grid { grid-template-columns: 1fr; }
+  /* Two-column controls on a phone, so the first deal card reaches the
+     first screen instead of sitting below six stacked fields. */
+  .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px 10px; margin: 10px 0 4px; }
+  .count { margin: 6px 0 8px; }
+  .controls .search-label { grid-column: 1 / -1; }
+  .controls label { width: 100%; }
+  .controls input,
+  .controls select { min-height: 38px; padding: 6px 8px; font-size: 15px; }
+  .card { padding: 12px 14px; }
+  .price { font-size: 28px; }
+  .detail h1 { font-size: 26px; }
+  .facts { grid-template-columns: 1fr; gap: 2px; }
+  .facts dd { margin-bottom: 8px; }
+}
