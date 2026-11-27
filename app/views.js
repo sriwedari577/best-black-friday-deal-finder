@@ -3,6 +3,7 @@
 // formatted once, here, so the list and the detail page can never disagree.
 
 import { percentOff, saving } from "./filters.js";
+import { COMPARE } from "./data.js";
 
 const escape = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const usd = (n) => `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
@@ -58,6 +59,7 @@ export function listPage(deals, state, categories, stores) {
   <h1>Black Friday deals, checked today</h1>
   <p class="lede">${state.total} real deals, each read at its store or in a deals source naming the store on 27 November 2026. Every card shows the sale price, the usual price, the discount, when the price was checked, where it was read, and an honest verdict on whether it is really a deal.</p>
   <p class="legend"><span class="badge badge-new-low">New low</span> lowest price tracked · <span class="badge badge-strong">Strong price</span> genuinely good · <span class="badge badge-routine">Routine sale</span> ordinary cut · <span class="badge badge-inflated">Inflated sale</span> not really a bargain (none graded inflated).</p>
+  <p class="compare-link"><a href="#/compare">Compare prices: the same product at different stores →</a></p>
 </section>
 <form class="controls" id="controls">
   <label class="search-label">Search deals <input id="q" type="search" value="${escape(state.query)}" placeholder="Try “headphones”, “TV”, “LEGO”…"></label>
@@ -88,6 +90,7 @@ export function listPage(deals, state, categories, stores) {
 
 export function dealPage(deal, related) {
   const relatedCards = related.length === 0 ? "" : `<h2>More ${escape(deal.category)} deals</h2><div class="grid">${related.map(dealCard).join("")}</div>`;
+  const compared = COMPARE.find((c) => c.dealId === deal.id);
   return `<p class="back"><a href="#/">&larr; All deals</a></p>
 <article class="detail">
   <p class="eyebrow">${escape(deal.category)} · ${escape(deal.store)}</p>
@@ -106,10 +109,51 @@ export function dealPage(deal, related) {
   </dl>
   <p><a class="button big-button" href="${escape(deal.url)}" target="_blank" rel="noopener">View it at ${escape(deal.store)} ↗</a></p>
   <p class="fineprint">Prices move fast on Black Friday. Confirm the price at the store before you buy — the check time above is when this price was read.</p>
+  ${compared ? `<p class="compare-link"><a href="#/compare">See this product's price at other stores →</a></p>` : ""}
 </article>
 ${relatedCards}`;
 }
 
 export function missingPage() {
   return `<h1>Deal not found</h1><p>There is no deal at this address. <a href="#/">See all deals</a>.</p>`;
+}
+
+export function comparePage() {
+  const sections = COMPARE.map((item) => {
+    const best = Math.min(...item.rows.map((r) => r.price));
+    const rows = item.rows
+      .map((row) => {
+        const when = new Date(row.checked).toLocaleString("en-US", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          timeZone: "UTC",
+        });
+        const isBest = row.price === best;
+        return `<tr${isBest ? ` class="best-row"` : ""}>
+  <td>${escape(row.store)}${isBest ? ` <span class="badge badge-best">Best price</span>` : ""}</td>
+  <td class="num">${usd(row.price)}</td>
+  <td class="num">${usd(row.was)}</td>
+  <td class="num">${usd(row.was - row.price)}</td>
+  <td><a href="${escape(row.sourceUrl)}" target="_blank" rel="noopener">${escape(row.source)}</a>, ${when}</td>
+  <td><a class="button" href="${escape(row.url)}" target="_blank" rel="noopener">View at ${escape(row.store)} ↗</a></td>
+</tr>`;
+      })
+      .join("");
+    return `<section class="compare-block">
+  <p class="eyebrow">${escape(item.category)}</p>
+  <h2>${escape(item.product)}</h2>
+  <table class="compare-table">
+    <thead><tr><th>Store</th><th>Sale price</th><th>Usual price</th><th>You save</th><th>Checked · source</th><th></th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <p><a href="#/deal/${encodeURIComponent(item.dealId)}">See the full deal page →</a></p>
+</section>`;
+  }).join("");
+  return `<p class="back"><a href="#/">&larr; All deals</a></p>
+<section class="intro">
+  <h1>Compare the same product across stores</h1>
+  <p class="lede">Four products, each checked at more than one store on 27 November 2026. The cheapest price for each product is marked Best price. Prices move fast — confirm at the store before you buy.</p>
+</section>
+${sections}`;
 }

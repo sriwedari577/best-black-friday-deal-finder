@@ -1,12 +1,12 @@
 // Friday Finder: hash routing and live filtering. Routes: #/ is the deal list,
 // #/deal/<id> is one deal, #/filter/<Category> is the list with that category
-// pre-selected. Filter controls re-render the list in place, so search, the
+// pre-selected, #/compare compares the same product across stores. Filter controls re-render the list in place, so search, the
 // category/store/discount/verdict filters and sorting all work without a reload.
 // window.__shotReady is true once the current page is on screen.
 
 import { CATEGORIES, DEALS, STORES } from "./data.js";
 import { defaultState, filterAndSort } from "./filters.js";
-import { dealPage, listPage, missingPage } from "./views.js";
+import { dealPage, listPage, missingPage, comparePage } from "./views.js";
 
 const app = document.getElementById("app");
 const state = defaultState();
@@ -74,6 +74,13 @@ function renderDetail(id) {
 function render() {
   window.__shotReady = false;
   const hash = location.hash || "#/";
+  if (hash.startsWith("#/compare")) {
+    document.title = "Compare prices across stores | Friday Finder";
+    app.innerHTML = comparePage();
+    window.scrollTo(0, 0);
+    window.__shotReady = true;
+    return;
+  }
   const dealMatch = hash.match(/^#\/deal\/([^/?]+)/);
   if (dealMatch) {
     renderDetail(decodeURIComponent(dealMatch[1]));

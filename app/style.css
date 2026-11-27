@@ -230,6 +230,37 @@ footer {
 
 .fineprint { font-size: 14px; color: #4a5560; }
 
+.compare-link { font-size: 16px; font-weight: 700; margin: 8px 0 0; }
+
+.compare-block {
+  background: #fff;
+  border: 1px solid #d5d0c4;
+  border-top: 6px solid #ffb703;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.compare-block h2 { font-size: 24px; line-height: 1.2; margin: 4px 0 12px; }
+
+.compare-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+
+.compare-table th,
+.compare-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #d5d0c4;
+  vertical-align: middle;
+}
+
+.compare-table th { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #4a5560; }
+
+.compare-table td.num { font-weight: 700; white-space: nowrap; }
+
+.compare-table tr.best-row { background: #fff8e1; }
+
+.badge-best { background: #0d3b2e; color: #fff; }
+
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -255,6 +286,9 @@ footer {
   .card { padding: 12px 14px; }
   .price { font-size: 28px; }
   .detail h1 { font-size: 26px; }
+  .compare-table { font-size: 14px; }
+  .compare-table th, .compare-table td { padding: 8px 6px; }
+  .compare-block { padding: 14px; }
   .facts { grid-template-columns: 1fr; gap: 2px; }
   .facts dd { margin-bottom: 8px; }
 }
