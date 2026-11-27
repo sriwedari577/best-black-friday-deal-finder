@@ -5,6 +5,9 @@
 // scorer rebuilds it. Leave vendor/makefun-frontend.ts untouched: the scorer
 // requires the dossier to be byte for byte what its own copy writes.
 //
+// Revision 2 (27 November 2026): 18 more verified deals (56 total) and a
+// Compare view in app/; the build contract below is unchanged.
+//
 // Run it outside the grader with:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 // Serve the site locally with `node serve.ts`, then open http://localhost:8080.
