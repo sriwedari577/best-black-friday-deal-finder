@@ -8,6 +8,13 @@
 // Revision 2 (27 November 2026): 18 more verified deals (56 total) and a
 // Compare view in app/; the build contract below is unchanged.
 //
+// Revision 3 (28 November 2026): the cover screenshot is a Deal of the Day
+// hero (one compared product's price side by side at two stores, plus totals
+// computed from the deal data) on a new #/deal-of-the-day route; the build
+// contract below is unchanged. Note for later revisers: the hero's stats
+// strip (56 / $8,927 / 35.6% / 13) is computed from DEALS at render time —
+// never hardcode those numbers, or they will drift from the data.
+//
 // Run it outside the grader with:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 // Serve the site locally with `node serve.ts`, then open http://localhost:8080.
