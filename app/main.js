@@ -1,20 +1,36 @@
 // Friday Finder: hash routing and live filtering. Routes: #/ is the deal list,
 // #/deal/<id> is one deal, #/filter/<Category> is the list with that category
-// pre-selected, #/compare compares the same product across stores. Filter controls re-render the list in place, so search, the
+// pre-selected, #/compare compares the same product across stores, and
+// #/deal-of-the-day is the list with the Deal of the Day hero on top. Filter controls re-render the list in place, so search, the
 // category/store/discount/verdict filters and sorting all work without a reload.
 // window.__shotReady is true once the current page is on screen.
 
 import { CATEGORIES, DEALS, STORES } from "./data.js";
 import { defaultState, filterAndSort } from "./filters.js";
-import { dealPage, listPage, missingPage, comparePage } from "./views.js";
+import { dealPage, listPage, missingPage, comparePage, heroPage } from "./views.js";
 
 const app = document.getElementById("app");
 const state = defaultState();
+
+function renderHero() {
+  const shown = filterAndSort(DEALS, state);
+  document.title = "Deal of the Day — MacBook Air compared across stores | Friday Finder";
+  app.innerHTML = heroPage(shown, { ...state, total: DEALS.length }, CATEGORIES, STORES);
+  wireListControls();
+  window.scrollTo(0, 0);
+  window.__shotReady = true;
+}
 
 function renderList() {
   const shown = filterAndSort(DEALS, state);
   document.title = "Friday Finder — Black Friday deals checked today";
   app.innerHTML = listPage(shown, { ...state, total: DEALS.length }, CATEGORIES, STORES);
+  wireListControls();
+  window.scrollTo(0, 0);
+  window.__shotReady = true;
+}
+
+function wireListControls() {
   const form = app.querySelector("#controls");
   const queryInput = app.querySelector("#q");
   const rerender = () => {
@@ -74,6 +90,11 @@ function renderDetail(id) {
 function render() {
   window.__shotReady = false;
   const hash = location.hash || "#/";
+  if (hash === "#/deal-of-the-day") {
+    Object.assign(state, defaultState());
+    renderHero();
+    return;
+  }
   if (hash.startsWith("#/compare")) {
     document.title = "Compare prices across stores | Friday Finder";
     app.innerHTML = comparePage();

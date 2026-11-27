@@ -3,7 +3,7 @@
 // formatted once, here, so the list and the detail page can never disagree.
 
 import { percentOff, saving } from "./filters.js";
-import { COMPARE } from "./data.js";
+import { COMPARE, DEALS } from "./data.js";
 
 const escape = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const usd = (n) => `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
@@ -156,4 +156,61 @@ export function comparePage() {
   <p class="lede">Four products, each checked at more than one store on 27 November 2026. The cheapest price for each product is marked Best price. Prices move fast — confirm at the store before you buy.</p>
 </section>
 ${sections}`;
+}
+
+// Deal of the Day: one product with its price side by side at two stores,
+// plus a strip of totals computed from the deal data itself, so the numbers
+// can never drift from what the finder holds. The hero product is the one
+// compared product whose stores genuinely disagree on price (MacBook Air:
+// $999 at Amazon, $1,049 at Best Buy); the other compared products are ties
+// at every store, so a side-by-side of one of those would show no difference.
+export function heroSection() {
+  const item = COMPARE.find((c) => c.dealId === "macbook-air-m5-13") ?? COMPARE[0];
+  const deal = DEALS.find((d) => d.id === item.dealId);
+  const best = Math.min(...item.rows.map((r) => r.price));
+  const dearest = item.rows.reduce((a, r) => (r.price > a.price ? r : a), item.rows[0]);
+  const cheapest = item.rows.find((r) => r.price === best);
+  const spread = Math.round((dearest.price - best) * 100) / 100;
+  const totalSaving = DEALS.reduce((sum, d) => sum + saving(d), 0);
+  const avgDiscount = DEALS.reduce((sum, d) => sum + percentOff(d), 0) / DEALS.length;
+  const newLows = DEALS.filter((d) => d.verdict === "new-low").length;
+  const panels = item.rows
+    .map((row) => {
+      const when = new Date(row.checked).toLocaleString("en-US", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "UTC",
+      });
+      const isBest = row.price === best;
+      return `<article class="hero-panel${isBest ? " hero-best" : ""}">
+  <p class="hero-store">${escape(row.store)}${isBest ? ` <span class="badge badge-best">Best price</span>` : ""}</p>
+  <p class="price-row big"><span class="price">${usd(row.price)}</span> <s class="was">${usd(row.was)}</s> <span class="off">${percentOff(row)}% off</span></p>
+  <p class="save-line">You save ${usd(saving(row))}</p>
+  <p class="checked">Checked ${when} UTC · Source: <a href="${escape(row.sourceUrl)}" target="_blank" rel="noopener">${escape(row.source)}</a></p>
+  <p class="card-actions"><a class="button" href="${escape(row.url)}" target="_blank" rel="noopener">View at ${escape(row.store)} ↗</a></p>
+</article>`;
+    })
+    .join("");
+  return `<section class="hero">
+  <p class="eyebrow">Deal of the Day · The same product at two stores</p>
+  <h1>${escape(item.product)}</h1>
+  <p class="hero-sub">Checked at ${item.rows.length} stores on 27 November 2026. ${escape(cheapest.store)} is ${usd(spread)} cheaper than ${escape(dearest.store)}.</p>
+  <div class="hero-panels">${panels}</div>
+  <p class="hero-evidence">${verdictBadge(deal)} — ${escape(deal.evidence)}</p>
+  <dl class="hero-stats">
+    <div class="stat"><dt>Deals checked</dt><dd>${DEALS.length}</dd></div>
+    <div class="stat"><dt>Combined savings vs usual prices</dt><dd>${usd(Math.round(totalSaving))}</dd></div>
+    <div class="stat"><dt>Average discount</dt><dd>${avgDiscount.toFixed(1)}%</dd></div>
+    <div class="stat"><dt>New-low prices</dt><dd>${newLows}</dd></div>
+  </dl>
+  <p class="compare-link"><a href="#/compare">See all ${COMPARE.length} products compared across stores →</a> · <a href="#/deal/${encodeURIComponent(item.dealId)}">See the full deal page →</a></p>
+</section>`;
+}
+
+export function heroPage(deals, state, categories, stores) {
+  return heroSection() + listPage(deals, state, categories, stores);
 }

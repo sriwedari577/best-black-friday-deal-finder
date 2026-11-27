@@ -261,6 +261,57 @@ footer {
 
 .badge-best { background: #0d3b2e; color: #fff; }
 
+.hero {
+  background: #123332;
+  color: #fff;
+  border-radius: 12px;
+  padding: 22px 24px 18px;
+  margin: 18px 0 6px;
+}
+
+.hero .eyebrow { color: #ffb703; }
+
+.hero h1 { font-size: 31px; line-height: 1.15; margin: 6px 0 4px; letter-spacing: -0.02em; }
+
+.hero-sub { margin: 0 0 14px; font-size: 17px; color: #d8e6e2; max-width: 860px; }
+
+.hero-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.hero-panel {
+  background: #fff;
+  color: #17202a;
+  border: 3px solid #d5d0c4;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.hero-panel.hero-best { border-color: #ffb703; }
+
+.hero-store { margin: 0 0 6px; font-size: 19px; font-weight: 800; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.hero-panel .checked { margin-bottom: 12px; }
+
+.hero-evidence { margin: 14px 0 0; font-size: 15px; color: #d8e6e2; max-width: 900px; }
+
+.hero-evidence .verdict-name { color: #fff; }
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 16px 0 0;
+}
+
+.hero-stats .stat { border-top: 2px solid #ffb703; padding-top: 8px; display: flex; flex-direction: column; }
+
+.hero-stats dt { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #d8e6e2; font-weight: 700; }
+
+.hero-stats dd { margin: auto 0 0; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+
+.hero .compare-link { margin-top: 14px; }
+
+.hero .compare-link a { color: #ffb703; }
+
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -289,6 +340,11 @@ footer {
   .compare-table { font-size: 14px; }
   .compare-table th, .compare-table td { padding: 8px 6px; }
   .compare-block { padding: 14px; }
+  /* The Deal of the Day hero stacks on a phone: two price panels side by
+     side would be too narrow at 390px, and the four stats fit two abreast. */
+  .hero-panels { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero { padding: 16px 14px 14px; }
   .facts { grid-template-columns: 1fr; gap: 2px; }
   .facts dd { margin-bottom: 8px; }
 }
